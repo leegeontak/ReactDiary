@@ -1,23 +1,59 @@
 import logo from './logo.svg';
 import './App.css';
+import Diary from './Diary';
+import DiaryList from './DiaryList';
+import { useRef,useState } from 'react';
+
+import React from 'react';
+
 
 function App() {
+  const [data,setData] = useState([])
+  const [originData,setOriginData] = useState([])
+  const dataId = useRef(0)
+  const addList = (title,content,emotion)=>{
+    const newData = {
+      title,
+      content,
+      emotion,
+      id:dataId.current
+    }
+    setData([...data,newData])
+    setOriginData([...originData,newData])
+    console.log(originData)
+    dataId.current += 1;
+  }
+  const deleteList = (deleteListId)=>{
+    setData(data.filter(item=>item.id !==deleteListId))
+    setOriginData(originData.filter(item=>item.id !==deleteListId))
+  }
+  const editList = (newData,editId)=>{
+    setData(data.filter(item=>{
+      if(item.id == editId){
+        return item.content = newData
+      }
+    }))
+    setOriginData(originData.filter(item=>{
+      if(item.id == editId){
+        return item.content = newData
+      }
+    }))
+  }
+  const allViewDiary = () =>{
+    setData(originData)
+  }
+  const happyDiary = () =>{
+    console.log(originData)
+    setData(originData.filter(item=>item.emotion >= 3))
+  }
+  const unhappyDiary = () =>{
+    setData(originData.filter(item=>item.emotion < 3))
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Diary addList = {addList} allViewDiary={allViewDiary} happayDiary={happyDiary} unhappyDiary={unhappyDiary}></Diary>
+      <DiaryList data = {data} deleteList = {deleteList} editList ={editList}></DiaryList>
+      
     </div>
   );
 }
