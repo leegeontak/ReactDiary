@@ -1,11 +1,12 @@
 import { useState } from "react"
 
-function Diary({addList,allViewDiary,happayDiary,unhappyDiary}){
+function Diary({addList,allViewDiary,happayDiary,unhappyDiary,searchData}){
     const [state,setState] = useState({
         title:"",
         content:"",
         emotion:1,
     })
+    const [searchWord,setSearchWord] = useState("")
     const handelState = (e)=>{
         setState({
             ...state,
@@ -19,14 +20,19 @@ function Diary({addList,allViewDiary,happayDiary,unhappyDiary}){
             content:"",
             emotion:1,
         })
-        console.log("저장했습니다")
     }
-    
+    const searchButton = ()=>{
+        searchData(searchWord)
+    }
     return(
         <div className="DiaryEditor"> 
-            <button onClick={allViewDiary}>모든 일기 보기</button>
-            <button onClick={happayDiary}>좋았던 일기 보기</button>
-            <button onClick={unhappyDiary}>나빴던 일기 보기</button>
+            <div>
+                <button onClick={allViewDiary}>모든 일기 보기</button>
+                <button onClick={happayDiary}>좋았던 일기 보기</button>
+                <button onClick={unhappyDiary}>나빴던 일기 보기</button>
+            </div>
+            <input type="text" value={searchWord} onChange={(e)=>setSearchWord(e.target.value)}></input>
+            <button onClick={searchButton}>검색하기</button>
             <h2>일기장</h2>
             <div>
                 <input name="title" value={state.title} onChange={handelState}></input>
@@ -44,7 +50,7 @@ function Diary({addList,allViewDiary,happayDiary,unhappyDiary}){
                     <option value={5} onChange={handelState}>5</option>
                 </select>
             </div>
-            <button onClick={save}>저장하기</button>
+            <button className="saveButton" onClick={save}>저장하기</button>
         </div>
     )
 }

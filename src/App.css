@@ -21,7 +21,7 @@ textarea{
   margin-bottom: 20px;
 }
 
-.DiaryEditor button{
+.saveButton{
   width: 500px;
   padding: 10px;
   cursor: pointer;

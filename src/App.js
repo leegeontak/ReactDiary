@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import Diary from './Diary';
 import DiaryList from './DiaryList';
 import { useRef,useState } from 'react';
-
 import React from 'react';
 
 
@@ -20,7 +18,6 @@ function App() {
     }
     setData([...data,newData])
     setOriginData([...originData,newData])
-    console.log(originData)
     dataId.current += 1;
   }
   const deleteList = (deleteListId)=>{
@@ -49,9 +46,12 @@ function App() {
   const unhappyDiary = () =>{
     setData(originData.filter(item=>item.emotion < 3))
   }
+  const searchData = (searchWord)=>{
+    setData(originData.filter(item=>item.title.includes(searchWord)))
+  }
   return (
     <div className="App">
-      <Diary addList = {addList} allViewDiary={allViewDiary} happayDiary={happyDiary} unhappyDiary={unhappyDiary}></Diary>
+      <Diary addList = {addList} allViewDiary={allViewDiary} happayDiary={happyDiary} unhappyDiary={unhappyDiary} searchData = {searchData}></Diary>
       <DiaryList data = {data} deleteList = {deleteList} editList ={editList}></DiaryList>
       
     </div>
